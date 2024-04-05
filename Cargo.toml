@@ -10,5 +10,6 @@ reqwest = { version = "0.12.2", features = ["json"] }
 serde = { version = "1.0.197", features = ["derive"] }
 sysinfo = "0.30.8"
 tokio = { version = "1.37.0", features = ["full"] }
+toml = "0.8.12"
 uuid = { version = "1.8.0", features = ["v4"] }
 
