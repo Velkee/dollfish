@@ -74,11 +74,10 @@ async fn main() -> Result<(), reqwest::Error> {
         }
     };
 
-    let mut config_buffer = String::new();
-    let config = config_file
-        .read_to_string(&mut config_buffer)
-        .expect("Could not read from config")
-        .to_string();
+    let mut config = String::new();
+    config_file
+        .read_to_string(&mut config)
+        .expect("Could not read from config");
 
     let config: Config =
         toml::from_str(&config).expect("Could not convert config from TOML to Struct");

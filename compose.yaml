@@ -1,3 +1,5 @@
+# This will create a Jellyfin instance running inside docker for easy testing
+
 services:
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
