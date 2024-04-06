@@ -16,6 +16,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+mod users;
+use users::authentication::AuthenticationResponse;
+
 use std::{
     collections::HashMap,
     env,
@@ -114,9 +117,10 @@ async fn main() -> Result<(), reqwest::Error> {
         .send()
         .await?;
 
-    let response = authenticate.text().await?;
+    let response: AuthenticationResponse =
+        serde_json::from_str(&authenticate.text().await?).expect("Could not parse responses");
 
-    println!("Response: {}", response);
+    println!("{}", response.access_token);
 
     Ok(())
 }
