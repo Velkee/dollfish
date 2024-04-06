@@ -15,7 +15,7 @@ Dollfish is developed and tested using Rust Stable. Make sure you have Rust inst
 
 ## Thank yous
 A small section dedicated to thanking projects and people.
-- [theS1LV3R](https://s1lv3r.codes) - Helpfully pointed me to [James Harvey's excelent broad overview](https://jmshrv.com/posts/jellyfin-api/) over how Jellyfin's API works.
+- [theS1LV3R](https://s1lv3r.codes) - Helpfully pointed me to [James Harvey's excellent broad overview](https://jmshrv.com/posts/jellyfin-api/) over how Jellyfin's API works.
 - [James Harvey](https://jmshrv.com/) - For said overview.
-- [Jellyfin](https://jellyfin.org) - For their excelent media server, and for their [jellyfin-mpv-shim](https://github.com/jellyfin/jellyfin-mpv-shim) project which inspired me to try my hand at making my own shim.
+- [Jellyfin](https://jellyfin.org) - For their excellent media server, and for their [jellyfin-mpv-shim](https://github.com/jellyfin/jellyfin-mpv-shim) project which inspired me to try my hand at making my own shim.
 
