@@ -19,6 +19,9 @@
 mod users;
 use users::authentication::AuthenticationResponse;
 
+mod auth_header;
+use auth_header::set_auth_header;
+
 use std::{
     collections::HashMap,
     env,
@@ -26,7 +29,7 @@ use std::{
     io::{Read, Write},
 };
 
-use reqwest::header::{HeaderMap, AUTHORIZATION};
+use reqwest::header::HeaderMap;
 use serde::{Deserialize, Serialize};
 use sysinfo::System;
 use uuid::Uuid;
@@ -85,20 +88,15 @@ async fn main() -> Result<(), reqwest::Error> {
     let config: Config =
         toml::from_str(&config).expect("Could not convert config from TOML to Struct");
 
-    let mut headers = HeaderMap::new();
-    headers.insert(
-        AUTHORIZATION,
-        format!("MediaBrowser Client=\"Dollfish Jellyfin Client\", Device=\"{}\", DeviceId=\"{}\", Version=\"{}\", Token=\"\"", config.device_name, config.uuid, VERSION)
-        .parse()
-        .unwrap(),
-    );
+    let headers = HeaderMap::new();
+
+    let headers = set_auth_header(headers, config.device_name, config.uuid, None).await;
 
     let test_request = client
         .get("http://localhost:8096/System/Info/Public")
-        .send()
-        .await;
+        .send();
 
-    match test_request {
+    match test_request.await {
         Ok(_) => (),
         Err(_) => {
             println!("Could not contact server, please verify the server is running and try again");
@@ -112,15 +110,19 @@ async fn main() -> Result<(), reqwest::Error> {
 
     let authenticate = client
         .post("http://localhost:8096/Users/AuthenticateByName")
-        .headers(headers)
+        .headers(headers.clone())
         .json(&user_credentials)
-        .send()
-        .await?;
+        .send();
 
-    let response: AuthenticationResponse =
-        serde_json::from_str(&authenticate.text().await?).expect("Could not parse responses");
+    let response: AuthenticationResponse = serde_json::from_str(&authenticate.await?.text().await?)
+        .expect("Could not parse responses");
 
-    println!("{}", response.access_token);
+    let headers = set_auth_header(
+        headers,
+        response.session_info.device_name,
+        response.session_info.device_id,
+        Some(response.access_token),
+    );
 
     Ok(())
 }
