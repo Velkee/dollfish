@@ -1,3 +1,7 @@
-/target
-/jellyfin
+debug/
+target/
+jellyfin/
+
+**/*.rs.bk
+
 dollfish.conf
