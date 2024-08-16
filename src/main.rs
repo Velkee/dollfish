@@ -2,6 +2,8 @@ use std::collections::HashMap;
 
 use reqwest::header::{HeaderMap, AUTHORIZATION};
 
+mod api;
+
 #[tokio::main]
 async fn main() {
     let client = reqwest::Client::new();
